@@ -1,0 +1,234 @@
+/* ==========================================================================
+   MYKONOS BLUE TUMBLER — design tokens
+   Token-level only: colour, type, space, radius, elevation. No components.
+
+   Light is the default mode. Dark is applied twice, deliberately:
+   once for the manual [data-theme="dark"] toggle and once for
+   prefers-color-scheme, because plain CSS has no mixins and this project
+   has no build step.
+
+   TODO: color-mykonos-blue is a working approximation of Pantone 18-4434.
+   Sample the exact tone off the final product render and update it here —
+   every blue on the page derives from this one value.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---------- Brand palette (mode-independent) ------------------------- */
+  --color-mykonos-blue:  #44607A;
+  --color-aegean-night:  #1C2B38;
+  --color-whitewash:     #F6F3EE;
+  --color-stone:         #DAD2C0;
+  --color-brushed-steel: #9BA3AA;
+  --color-sunlit-brass:  #B98A4E;
+
+  --color-ink:         #1E2A33;
+  --color-ink-muted:   #5B6670;
+  --color-paper:       #F2EFE8;
+  --color-paper-muted: #AEB8BE;
+
+  /* ---------- Semantic ------------------------------------------------- */
+  --color-success: #6E7F5C;   /* muted olive */
+  --color-warning: #C08A3E;   /* muted ochre */
+  --color-error:   #B24B3C;   /* muted clay  */
+
+  /* ---------- Surfaces: light ------------------------------------------ */
+  --bg-primary:     #F6F3EE;
+  --bg-surface:     #FCFBF8;
+  --bg-elevated:    #FFFFFF;
+  --border-default: #E7E1D5;
+
+  /* A translucent form of --bg-elevated for the sticky nav and bottom bar. */
+  --bg-elevated-veil: rgba(255, 255, 255, .86);
+
+  /* The 3D stage pool: a radial wash the product sits in. On light it sinks
+     from whitewash to stone. Dark mode lifts it ABOVE the page ground
+     instead, because a navy product on a navy page has nothing to separate
+     it from — see the dark blocks below. */
+  --stage-core: var(--color-whitewash);
+  --stage-edge: var(--color-stone);
+
+  /* Hairline around a colour chip, so a chip that matches the surface still
+     reads as a chip (whitewash on light, aegean night on dark). */
+  --chip-ring: rgba(20, 32, 41, .18);
+
+  --text-primary: var(--color-ink);
+  --text-muted:   var(--color-ink-muted);
+
+  /* Brand blue as text/hairline on a light ground. */
+  --color-brand-text: var(--color-mykonos-blue);
+  --color-brand-hover: #344C60;
+
+  /* The one accent. CTAs, price, selected states — nothing else. */
+  --color-accent:      var(--color-sunlit-brass);
+  --color-accent-text: #8E651F;                    /* brass darkened for AA text on light */
+  --color-accent-soft: rgba(185, 138, 78, .10);
+  --color-accent-line: rgba(185, 138, 78, .42);
+
+  --color-focus: var(--color-mykonos-blue);
+
+  /* Primary button, light mode: brand blue. */
+  --btn-primary-bg:    var(--color-mykonos-blue);
+  --btn-primary-fg:    var(--color-whitewash);
+  --btn-primary-hover: #344C60;
+
+  /* ---------- Type ------------------------------------------------------ */
+  --font-serif: 'Instrument Serif', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans:  'General Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Fluid between the 375px and 1280px ends of the scale in the spec. */
+  --display-1: clamp(2.75rem,  1.61rem + 4.86vw, 5.5rem);   /* 44 → 88 */
+  --display-2: clamp(2.25rem,  1.53rem + 3.09vw, 4rem);     /* 36 → 64 */
+  --h1:        clamp(1.875rem, 1.62rem + 1.11vw, 2.5rem);   /* 30 → 40 */
+  --h2:        clamp(1.5rem,   1.40rem + 0.44vw, 1.75rem);  /* 24 → 28 */
+  --h3:        clamp(1.25rem,  1.20rem + 0.22vw, 1.375rem); /* 20 → 22 */
+  --body-l: 1.125rem;   /* 18 */
+  --body-m: 1rem;       /* 16 */
+  --body-s: 0.875rem;   /* 14 */
+  --label:  0.75rem;    /* 12 */
+
+  --lh-display: 1.05;
+  --lh-display-2: 1.1;
+  --lh-heading: 1.2;
+  --lh-body: 1.6;
+  --lh-tight: 1.4;
+
+  --tr-display: -0.01em;
+  --tr-body: 0;
+  --tr-ui: 0.01em;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  --measure: 68ch;   /* keeps body copy under ~80 characters */
+
+  /* ---------- Space: 8pt grid, 4px half-step --------------------------- */
+  --space-05: 4px;
+  --space-1:  8px;
+  --space-2:  16px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-6:  48px;
+  --space-8:  64px;
+  --space-12: 96px;
+  --space-16: 128px;
+
+  /* ---------- Layout --------------------------------------------------- */
+  --content-max: 1280px;
+  --measure-max: 720px;
+  --gutter: 24px;
+  --page-margin: clamp(24px, -6px + 8vw, 96px);   /* 24 mobile → 96 desktop */
+  --section-y: clamp(48px, 24px + 6vw, 128px);
+  --header-h: 68px;
+
+  /* ---------- Radius: hierarchical, never uniform ---------------------- */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   24px;
+  --radius-full: 999px;
+
+  /* ---------- Elevation: tinted with ink/night, never flat grey -------- */
+  --shadow-sm:      0 1px 2px  rgba(20, 32, 41, .06);
+  --shadow-md:      0 4px 12px rgba(20, 32, 41, .08);
+  --shadow-lg:      0 12px 32px rgba(20, 32, 41, .12);
+  --shadow-product: 0 20px 40px rgba(20, 32, 41, .18);
+
+  /* ---------- Motion --------------------------------------------------- */
+  --dur-fast: 140ms;
+  --dur-base: 240ms;
+  --dur-slow: 620ms;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ease-soft: cubic-bezier(.4, 0, .2, 1);
+
+  /* ---------- Stacking ------------------------------------------------- */
+  --z-sticky: 20;
+  --z-header: 40;
+  --z-bottombar: 45;
+  --z-toast: 90;
+}
+
+/* ---------- Dark mode ------------------------------------------------- */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-primary:     #14202A;
+  --bg-surface:     #1C2B38;   /* aegean-night */
+  --bg-elevated:    #23384A;
+  --border-default: #2C3E4C;
+  --bg-elevated-veil: rgba(35, 56, 74, .88);
+  --stage-core: #3B5872;   /* steel-lit centre, lighter than the page */
+  --stage-edge: #1A2833;   /* falls off just below bg-primary          */
+  --chip-ring: rgba(242, 239, 232, .30);
+
+  --text-primary: var(--color-paper);
+  --text-muted:   var(--color-paper-muted);
+
+  /* Brand blue is too close to the navy ground to carry text or links. */
+  --color-brand-text:  #9FB6C9;
+  --color-brand-hover: #C3D3DF;
+
+  --color-accent-text: #D8A863;
+  --color-accent-soft: rgba(185, 138, 78, .16);
+  --color-accent-line: rgba(185, 138, 78, .55);
+
+  /* Brass, not blue-on-navy: the one action on the page has to stand out. */
+  --btn-primary-bg:    var(--color-sunlit-brass);
+  --btn-primary-fg:    var(--color-aegean-night);
+  --btn-primary-hover: #C89A62;
+
+  /* Blue focus rings disappear against navy, so the accent carries them. */
+  --color-focus: var(--color-sunlit-brass);
+
+  --color-success: #8FA07C;
+  --color-warning: #D3A15A;
+  --color-error:   #D2705F;
+
+  --shadow-sm:      0 1px 2px  rgba(5, 10, 14, .40);
+  --shadow-md:      0 4px 12px rgba(5, 10, 14, .48);
+  --shadow-lg:      0 12px 32px rgba(5, 10, 14, .58);
+  --shadow-product: 0 20px 40px rgba(5, 10, 14, .60);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg-primary:     #14202A;
+    --bg-surface:     #1C2B38;
+    --bg-elevated:    #23384A;
+    --border-default: #2C3E4C;
+    --bg-elevated-veil: rgba(35, 56, 74, .88);
+    --stage-core: #3B5872;
+    --stage-edge: #1A2833;
+    --chip-ring: rgba(242, 239, 232, .30);
+
+    --text-primary: var(--color-paper);
+    --text-muted:   var(--color-paper-muted);
+
+    --color-brand-text:  #9FB6C9;
+    --color-brand-hover: #C3D3DF;
+
+    --color-accent-text: #D8A863;
+    --color-accent-soft: rgba(185, 138, 78, .16);
+    --color-accent-line: rgba(185, 138, 78, .55);
+
+    --btn-primary-bg:    var(--color-sunlit-brass);
+    --btn-primary-fg:    var(--color-aegean-night);
+    --btn-primary-hover: #C89A62;
+
+    --color-focus: var(--color-sunlit-brass);
+
+    --color-success: #8FA07C;
+    --color-warning: #D3A15A;
+    --color-error:   #D2705F;
+
+    --shadow-sm:      0 1px 2px  rgba(5, 10, 14, .40);
+    --shadow-md:      0 4px 12px rgba(5, 10, 14, .48);
+    --shadow-lg:      0 12px 32px rgba(5, 10, 14, .58);
+    --shadow-product: 0 20px 40px rgba(5, 10, 14, .60);
+  }
+}

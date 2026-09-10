@@ -1,0 +1,59 @@
+{
+  "dimensions_m": {
+    "diameter": 0.06287419581734294,
+    "height_with_lid": 0.1701301769175162,
+    "height_with_straw": 0.21451196220034652,
+    "straw_outer_diameter": 0.007396964213805052,
+    "straw_inner_diameter": 0.005917571371044042,
+    "straw_length": 0.20434113640636456
+  },
+  "objects": [
+    {
+      "name": "Body",
+      "vertices": 28336,
+      "quads": 27680,
+      "triangles": 55680,
+      "nonmanifold_edges_after_weld": 0,
+      "degenerate_triangles": 0,
+      "signed_solid_volume_m3": 0.0001339951705777913
+    },
+    {
+      "name": "Lid",
+      "vertices": 15617,
+      "quads": 15360,
+      "triangles": 30720,
+      "nonmanifold_edges_after_weld": 0,
+      "degenerate_triangles": 0,
+      "signed_solid_volume_m3": 2.310395770499177e-05
+    },
+    {
+      "name": "Straw_Grommet",
+      "vertices": 1288,
+      "quads": 1120,
+      "triangles": 2240,
+      "nonmanifold_edges_after_weld": 0,
+      "degenerate_triangles": 0,
+      "signed_solid_volume_m3": 6.113958983533238e-07
+    },
+    {
+      "name": "Straw",
+      "vertices": 30107,
+      "quads": 29760,
+      "triangles": 59520,
+      "nonmanifold_edges_after_weld": 0,
+      "degenerate_triangles": 0,
+      "signed_solid_volume_m3": 3.159891892495079e-06
+    },
+    {
+      "name": "Base_Pad",
+      "vertices": 1127,
+      "quads": 640,
+      "triangles": 1600,
+      "nonmanifold_edges_after_weld": 0,
+      "degenerate_triangles": 0,
+      "signed_solid_volume_m3": 3.0638455947122097e-06
+    }
+  ],
+  "estimated_assembled_liquid_cavity_ml": 350.00000000000006,
+  "capacity_note": "Uniform scale calibrated to approximately 350 ml below the lid roof, using estimated inner profile, lid insertion and straw wall displacement. Tiny thread/grommet recesses and drinking headspace are excluded; not a certified measurement."
+}

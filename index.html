@@ -1,0 +1,326 @@
+<!doctype html>
+<!--
+  350 ml tumbler — a showcase page. Plain HTML/CSS/JS, no build step.
+
+  This page exists to show the product, not to sell it. There is no price, no
+  cart and no checkout anywhere on it: the interactive 3D model is the subject,
+  and every figure quoted comes from assets/model/validation.json.
+
+  Two honest caveats, both stated on the page itself:
+  1. The model is an estimated reconstruction calibrated to roughly 350 ml, not
+     a certified measurement.
+  2. The GLB's baked texture is the original navy, so the on-page finish reads
+     darker than the Mykonos blue the design system is built around. Re-baking
+     the base colour from a final product render is the one asset change that
+     would close that gap.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>350 ml tumbler — matte steel, five parts, one straw lid</title>
+<meta name="description" content="A showcase for a 350 ml matte stainless steel tumbler. Turn the interactive 3D model, take it apart, and read the measurements.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F6F3EE'/%3E%3Crect x='11' y='8' width='10' height='18' rx='2' fill='%2344607A'/%3E%3Crect x='15' y='3' width='2' height='8' fill='%23B98A4E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap">
+<link rel="stylesheet" href="assets/design-system/tokens.css">
+<link rel="stylesheet" href="style.css">
+<!-- Sets data-theme before first paint so a chosen mode never flashes. -->
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+<!-- Thin-line icons, 1.5px stroke, rounded caps — they echo the tumbler's
+     rounded silhouette. Referenced with <use>, so each path exists once. -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute" focusable="false">
+  <defs>
+    <g id="i-sun" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"></path>
+    </g>
+    <g id="i-moon" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14.5A8 8 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path>
+    </g>
+    <g id="i-steel" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <ellipse cx="12" cy="6" rx="6" ry="2.5"></ellipse>
+      <path d="M6 6v12c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V6"></path>
+    </g>
+    <g id="i-drop" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.5c3 3.6 5.5 6.6 5.5 9.6a5.5 5.5 0 1 1-11 0c0-3 2.5-6 5.5-9.6z"></path>
+    </g>
+    <g id="i-waves" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9c2.5-2 4.5-2 7 0s4.5 2 7 0M3 15c2.5-2 4.5-2 7 0s4.5 2 7 0"></path>
+    </g>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container site-header__row">
+    <span class="wordmark">Coded</span>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="#anatomy">Anatomy</a>
+      <a href="#spec">Measurements</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+      <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-sun"></use></svg>
+      <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-moon"></use></svg>
+    </button>
+    <button class="btn btn--buy" id="btn-buy" type="button">
+      <span class="btn--buy__price">£30</span>
+      <span class="btn--buy__label">Buy</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================ Hero ============================
+       One composition: two lines of display serif set into the corners of
+       the stage, the model turning between them. The type is layered over
+       the stage and is pointer-transparent, so a drag always reaches the
+       model underneath it. -->
+  <section class="hero">
+    <div class="container">
+      <p class="label hero__eyebrow">350 ml · matte stainless steel · straw lid</p>
+
+      <div class="hero__lock">
+        <h1 class="hero__title">
+          <span class="display-1 hero__line hero__line--a">Still cold</span>
+          <span class="display-1 hero__line hero__line--b">at six.</span>
+        </h1>
+
+        <div class="hero__stage">
+          <div class="stage" id="stage-hero">
+            <model-viewer
+              class="stage__model"
+              id="mv"
+              src="assets/model/tumbler.glb"
+              alt="A 350 ml matte steel tumbler with a straw lid, turning slowly. Drag to inspect it from any angle."
+              camera-controls
+              touch-action="pan-y"
+              interaction-prompt="none"
+              camera-orbit="-28deg 78deg 0.70m"
+              camera-target="0m 0.105m 0m"
+              min-camera-orbit="auto auto 0.34m"
+              max-camera-orbit="auto auto 1.2m"
+              field-of-view="27deg"
+              shadow-intensity="1"
+              shadow-softness="0.85"
+              exposure="1"
+              environment-image="neutral">
+
+              <button class="hotspot" slot="hotspot-lid" data-part="Lid"
+                      data-position="0.008m 0.1735m 0.004m" data-normal="0 1 0"
+                      data-label="Threaded straw lid"
+                      data-note="A helical thread with a gasketed straw grommet at its centre — it stays shut in a bag.">
+                <span class="hotspot__dot" aria-hidden="true"></span>
+                <span class="hotspot__label">Straw lid</span>
+              </button>
+
+              <button class="hotspot" slot="hotspot-body" data-part="Body"
+                      data-position="0.0315m 0.095m 0.006m" data-normal="1 0 0"
+                      data-label="Double-wall vacuum body"
+                      data-note="Matte-coated insulated steel, straight-sided, holding 350 ml below the lid roof.">
+                <span class="hotspot__dot" aria-hidden="true"></span>
+                <span class="hotspot__label">Body</span>
+              </button>
+
+              <button class="hotspot" slot="hotspot-base" data-part="Base pad"
+                      data-position="0.018m 0.004m 0.026m" data-normal="0 0 1"
+                      data-label="63 mm cup-holder base"
+                      data-note="A non-slip pad on a 62.9 mm footprint — it drops into a standard car cup holder.">
+                <span class="hotspot__dot" aria-hidden="true"></span>
+                <span class="hotspot__label">Base</span>
+              </button>
+            </model-viewer>
+
+            <p class="stage__loading">Loading the model…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outside the lockup on purpose: inside it, the caption stretched the
+           title layer and pushed "at six." down onto this line. -->
+      <p class="stage__caption" id="stage-caption">Drag to turn it. Tap a marker to read a part.</p>
+
+      <div class="hero__foot">
+        <p class="lede">Ice at nine is still ice after the last meeting. The lid threads
+          down instead of pushing on, and the base drops straight into a cup holder.</p>
+        <a class="link hero__jump" href="#anatomy">Take it apart</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Measurement strip ====================
+       Four figures, all from assets/model/validation.json. They count up
+       once as they come into view. -->
+  <section class="figures" aria-label="Key measurements">
+    <div class="container figures__row">
+      <div class="figure">
+        <p class="figure__value"><span data-countup="350">350</span> <span class="figure__unit">ml</span></p>
+        <p class="figure__label">below the lid roof</p>
+      </div>
+      <div class="figure">
+        <p class="figure__value"><span data-countup="62.9" data-decimals="1">62.9</span> <span class="figure__unit">mm</span></p>
+        <p class="figure__label">across the base</p>
+      </div>
+      <div class="figure">
+        <p class="figure__value"><span data-countup="170.1" data-decimals="1">170.1</span> <span class="figure__unit">mm</span></p>
+        <p class="figure__label">tall with the lid on</p>
+      </div>
+      <div class="figure">
+        <p class="figure__value"><span data-countup="5">5</span></p>
+        <p class="figure__label">separable parts</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== Anatomy ==========================
+       The interactive centrepiece. Entering this section settles the second
+       stage into its close framing and plays the exploded view once. -->
+  <section class="section" id="anatomy">
+    <div class="container anatomy__grid">
+      <div>
+        <div class="section__head">
+          <p class="label">Anatomy</p>
+          <h2>Five parts, nothing glued</h2>
+          <p class="lede lede--sm">The lid, grommet and straw lift away from the body. Play the
+            exploded view, or turn the model and tap a marker.</p>
+        </div>
+
+        <div class="cluster cluster--tight anatomy__controls">
+          <button class="btn btn--outline" id="btn-explode">Play exploded view</button>
+          <button class="btn btn--ghost" id="btn-reset">Reset the view</button>
+        </div>
+
+        <dl class="parts" id="parts">
+          <div class="parts__row"><dt>Body</dt><dd>Insulated wall, closed interior, rounded base</dd></div>
+          <div class="parts__row"><dt>Lid</dt><dd>Helical thread, hollow, central straw hole</dd></div>
+          <div class="parts__row"><dt>Straw grommet</dt><dd>Soft seal around the straw</dd></div>
+          <div class="parts__row"><dt>Straw</dt><dd>204 mm tube, 7.4 mm outer diameter</dd></div>
+          <div class="parts__row"><dt>Base pad</dt><dd>Non-slip, keeps it quiet on a desk</dd></div>
+        </dl>
+      </div>
+
+      <div class="anatomy__stage">
+        <div class="stage stage--square" id="stage-demo">
+          <model-viewer
+            class="stage__model"
+            id="mv2"
+            src="assets/model/tumbler.glb"
+            alt="The same tumbler, framed closer and seen from slightly above. Drag to turn it, or play the exploded view to separate the five parts."
+            camera-controls
+            touch-action="pan-y"
+            interaction-prompt="none"
+            camera-orbit="18deg 58deg 0.50m"
+            camera-target="0m 0.107m 0m"
+            min-camera-orbit="auto auto 0.30m"
+            max-camera-orbit="auto auto 1.2m"
+            field-of-view="26deg"
+            shadow-intensity="1"
+            shadow-softness="0.85"
+            exposure="1"
+            environment-image="neutral">
+
+            <button class="hotspot" slot="hotspot-lid" data-part="Lid"
+                    data-position="0.008m 0.1735m 0.004m" data-normal="0 1 0"
+                    data-label="Threaded straw lid"
+                    data-note="A helical thread with a gasketed straw grommet at its centre — it stays shut in a bag.">
+              <span class="hotspot__dot" aria-hidden="true"></span>
+              <span class="hotspot__label">Straw lid</span>
+            </button>
+
+            <button class="hotspot" slot="hotspot-body" data-part="Body"
+                    data-position="0.0315m 0.095m 0.006m" data-normal="1 0 0"
+                    data-label="Double-wall vacuum body"
+                    data-note="Matte-coated insulated steel, straight-sided, holding 350 ml below the lid roof.">
+              <span class="hotspot__dot" aria-hidden="true"></span>
+              <span class="hotspot__label">Body</span>
+            </button>
+
+            <button class="hotspot" slot="hotspot-base" data-part="Base pad"
+                    data-position="0.018m 0.004m 0.026m" data-normal="0 0 1"
+                    data-label="63 mm cup-holder base"
+                    data-note="A non-slip pad on a 62.9 mm footprint — it drops into a standard car cup holder.">
+              <span class="hotspot__dot" aria-hidden="true"></span>
+              <span class="hotspot__label">Base</span>
+            </button>
+          </model-viewer>
+          <p class="stage__loading">Loading the model…</p>
+        </div>
+
+        <div class="callout" id="hotspot-panel" aria-live="polite">
+          <p class="callout__hint">Tap a marker on the model to read about that part.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= Measurements ======================= -->
+  <section class="section section--surface" id="spec">
+    <div class="container spec__grid">
+      <div>
+        <div class="section__head">
+          <p class="label">Measurements</p>
+          <h2>Every number on this page</h2>
+          <p class="lede lede--sm">18/8 stainless steel with a matte powder coat, a
+            polypropylene lid and straw, and a silicone grommet. All of it replaceable.</p>
+        </div>
+        <ul class="materials" role="list">
+          <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-steel"></use></svg>18/8 food-grade steel, double wall, vacuum</li>
+          <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-drop"></use></svg>BPA-free lid, straw and grommet</li>
+          <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-waves"></use></svg>Every part separates for the top rack</li>
+        </ul>
+      </div>
+
+      <table class="spec">
+        <caption class="sr-only">Specification</caption>
+        <tbody>
+          <tr><th scope="row">Capacity</th><td>350 ml, below the lid roof</td></tr>
+          <tr><th scope="row">Diameter</th><td>62.9 mm</td></tr>
+          <tr><th scope="row">Height, lid on</th><td>170.1 mm</td></tr>
+          <tr><th scope="row">Height with straw</th><td>214.5 mm</td></tr>
+          <tr><th scope="row">Straw</th><td>204.3 mm · 7.4 mm outer · 5.9 mm inner</td></tr>
+          <tr><th scope="row">Body</th><td>18/8 stainless, double wall, vacuum</td></tr>
+          <tr><th scope="row">Finish</th><td>Matte Mykonos blue powder coat</td></tr>
+          <tr><th scope="row">Parts</th><td>Body, lid, grommet, straw, base pad</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========================== Closing ========================== -->
+  <section class="closing">
+    <div class="container container--narrow closing__inner">
+      <h2 class="display-2">Still cold at six.</h2>
+      <p class="fineprint closing__note">Dimensions and capacity are estimates taken from the
+        reference model: 350 ml measured below the lid roof, excluding drinking headspace.
+        Not a certified measurement.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__row">
+    <span>Coded · 350 ml tumbler</span>
+    <span>The 3D model is an estimated reconstruction.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="script.js"></script>
+</body>
+</html>
